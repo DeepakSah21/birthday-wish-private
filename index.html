@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Private Birthday Access</title>
+  <style>
+    :root {
+      --bg-1: #100d27;
+      --bg-2: #1b1238;
+      --card: rgba(255,255,255,0.08);
+      --card-border: rgba(255,255,255,0.18);
+      --text: #fffaf8;
+      --muted: #d7cfee;
+      --pink: #ffb9d0;
+      --gold: #ffe4a3;
+      --lav: #d6c5ff;
+      --shadow: 0 22px 70px rgba(0,0,0,0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(214,197,255,0.18), transparent 22%),
+        radial-gradient(circle at 80% 0%, rgba(255,185,208,0.18), transparent 25%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
+    }
+
+    .page-shell {
+      width: min(92vw, 440px);
+      padding: 30px 24px 24px;
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      background: rgba(17, 13, 31, 0.78);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .brand-mark {
+      display: inline-grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 10px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255,185,208,0.22), rgba(214,197,255,0.18));
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 1.9rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.3rem);
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      margin: 9px 0 24px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+    }
+
+    input[type="password"]:focus {
+      border-color: rgba(255,228,163,0.8);
+      box-shadow: 0 0 0 3px rgba(255,228,163,0.18);
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.18s ease, opacity 0.18s ease;
+      background: linear-gradient(135deg, var(--gold), var(--pink));
+      color: #281b3b;
+      box-shadow: 0 12px 22px rgba(255,185,208,0.2);
+    }
+
+    button:hover { transform: translateY(-2px); }
+    button:active { transform: translateY(0); }
+
+    .error {
+      min-height: 22px;
+      font-size: 0.9rem;
+      color: #ffb9c9;
+      text-align: center;
+    }
+
+    .note {
+      margin-top: 14px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <div class="brand">
+      <div class="brand-mark">✦</div>
+      <h1>Protected page</h1>
+    </div>
+
+    <p class="subtitle">Enter the secret password to unlock the birthday universe.</p>
+
+    <form id="loginForm">
+      <div>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Enter password" autocomplete="off" required />
+      </div>
+      <button type="submit">Enter the page</button>
+      <div id="errorMessage" class="error" aria-live="polite"></div>
+    </form>
+
+  </div>
+
+  <script>
+    const PASSWORD = 'anindita2026';
+    const form = document.getElementById('loginForm');
+    const passwordInput = document.getElementById('password');
+    const errorMessage = document.getElementById('errorMessage');
+
+    if (sessionStorage.getItem('birthdayUnlocked') === 'true') {
+      window.location.href = 'birthday-universe.html';
+    }
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const entered = passwordInput.value.trim();
+
+      if (entered === PASSWORD) {
+        sessionStorage.setItem('birthdayUnlocked', 'true');
+        window.location.href = 'birthday-universe.html';
+        return;
+      }
+
+      errorMessage.textContent = 'Incorrect password. Try again.';
+      passwordInput.value = '';
+      passwordInput.focus();
+    });
+  </script>
+</body>
+</html>
